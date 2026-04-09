@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: revenue_report
+    description: >
+      Tabela transacional consolidada com detalhamento de receita, taxas e liquidação.
+      Granularidade: 1 linha por transaction_id.
+    meta:
+      ai_context: "Use esta tabela para detalhar transações individuais e somar a receita líquida. Nunca tente fazer join direto com a tabela raw de settlements."
+    columns:
+      - name: transaction_id
+        description: "ID único da transação."
+        tests:
+          - unique
+          - not_null
+      - name: amount_brl
+        description: "Valor bruto processado."
+      - name: revenue_impact
+        description: "Valor real para o caixa. Atenção: valores de refund e chargeback já estão negativos aqui. Use esta coluna para somar faturamento."
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['captured', 'refunded', 'chargeback']
+
+  - name: merchant_summary
+    description: >
+      Resumo agregado de volumetria e performance por lojista.
+      Granularidade: 1 linha por merchant_id.
+    meta:
+      ai_context: "Tabela ideal para analisar o desempenho geral dos lojistas, taxas de risco e volume total processado."
+    columns:
+      - name: merchant_id
+        tests:
+          - unique
+          - not_null
+      - name: chargeback_rate
+        description: "Taxa de chargeback (decimal). Ex: 0.05 equivale a 5%."
