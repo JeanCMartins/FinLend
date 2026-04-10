@@ -25,9 +25,9 @@ Usei IA (LLMs) mais como um apoio de "pair programming" para agilizar a formata�
 
 Porém, na parte de corrigir a regra de negócio (negativar os estornos), precisei fazer a intervenção manual. A IA estava sugerindo apenas excluir as linhas com status de refund da tabela, o que daria furo na nossa auditoria e faria a gente perder o rastro da transação. 
 
-## Próximos passos (Com mais tempo)
+## Próximos passos
 
-Se eu tivesse mais tempo de projeto, meu plano de ação seria:
+Meu plano de ação seria:
 1.  Melhorar a governança adicionando o pacote `dbt-expectations` para criar testes de anomalia nas tabelas (o schema atual está só com o básico de unique/not_null).
 2.  Desenhar a orquestração via Airflow, configurando os jobs para rodar de forma incremental usando o `transaction_date`, ao invés de full refresh.
 3.  Criar algumas macros em Jinja para padronizar as conversões de centavos para BRL direto na camada staging.
